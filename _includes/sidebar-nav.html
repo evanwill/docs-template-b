@@ -1,0 +1,55 @@
+<!-- Sidebar -->
+<nav id="sidebar" class="bg-dark ">
+    <div class="p-4 text-white">
+        <h3>{{ site.title }}</h3>
+        <p>{{ site.description }}</p>
+    </div>
+    {% assign sections = site.html_pages | where: 'layout','doc-page' | sort: 'nav_order' %}
+
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item{% if page.url == section.url %} active{% endif %}">
+            <a href="{{ '/' | relative_url }}">Home</a>
+        </li>
+        {% for section in sections %}{% if section.nav_order %}
+        <li class="list-group-item{% if page.url == section.url %} active{% endif %}">
+            {% if section.section %}
+            <a href="#{{ section.section | slugify }}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{ section.section }}</a>
+            <ul class="collapse list-unstyled" id="{{ section.section | slugify }}">
+                {% assign pages = sections | where: 'section',section.section | sort: 'section_order' %}
+                {% for p in pages %}
+                <li>
+                    <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ section.url | relative_url }}">{{ section.title }}</a>
+            {% endif %}
+        </li>
+        {% endif %}{% endfor %}
+    </ul>
+
+{% if site.search == true %}
+<script>
+function site_search() {
+    var query = document.getElementById("site-search").value;
+    window.open("{{ '/search/index.html' | absolute_url }}?q=" + encodeURIComponent(query), "_self" );
+}
+</script>
+<form class="form-inline p-3" role="search" id="search" onsubmit="site_search(); return false;">
+<div class="input-group">
+    <input id="site-search" class="form-control" type="text" placeholder="Search" aria-label="Search box">
+    <div class="input-group-append">
+    <button class="btn btn-secondary" type="submit"><span class="fas fa-search"></span><span class="sr-only">submit search</span></button>
+    </div>
+</div>
+</form>
+{% endif %}
+
+<div class="p-3">
+    <a class="h5" href="{{ '/' | absolute_url }}">{{ site.title }}</a>
+    <br>
+    <p><a href="https://creativecommons.org/licenses/by-sa/4.0/">cc-by-sa</a> {{ site.pub_year }} <a href="https://github.com/{{ site.github_username }}">{{ site.author }}</a></p>
+</div>
+
+</nav>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+  {% include head.html %}
+  </head>
+
+  <body>
+    
+    <div class="wrapper">
+
+      {% include sidebar-nav.html %}
+
+      <div id="content" class="p-3">
+        <header>
+        {% include top-nav.html %}
+        </header>
+
+        <main role="main" aria-label="Content">
+          <div class="container-fluid my-4">
+          {{ content }}
+          </div>
+        </main>
+
+      </div>
+
+    </div>
+    {% include foot.html %}
+  </body>
+
+</html>
